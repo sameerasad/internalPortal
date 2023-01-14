@@ -1,0 +1,38 @@
+.primaryColor{
+     background-color: #A7ADF2;
+}
+.secondaryColor{
+    background-color: white;
+}
+:hover .primaryColor {
+    background-color:"#9ea2d3" ;
+}
+
+.otherOption{
+    color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.otherOption:after{
+   
+            content: "";
+                display: block;
+                width: 10rem;
+                height: 1px;
+                background: #999999;
+                right: 0;
+                margin: 5px;
+            /* top: 50%;
+            position: absolute; */
+        }
+.otherOption:before{
+    content: "";
+        display: block;
+        width: 10rem;
+        height: 1px;
+        background: #999999;
+        left: 0;
+        margin: 5px;
+}
