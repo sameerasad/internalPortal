@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { observer, inject } from "mobx-react";
 import { computed } from "mobx";
 import { NavLink } from "react-router-dom";
+import { GoogleLogout } from "react-google-login";
 import {
   SwitchHorizontalIcon,
   ScaleIcon,
@@ -64,6 +65,10 @@ class SidebarCompontent extends Component {
       }
     }
   };
+  logOut = () => {
+    localStorage.removeItem("googleId");
+    this.props.store.handleLogout();
+  };
 
   @computed get fromColor() {
     if (this.props.store.profile.credits <= 0) {
@@ -123,6 +128,19 @@ class SidebarCompontent extends Component {
                   <span className="hidden lg:block">credits remain</span>
                 </div>
               </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "100%",
+              }}
+            >
+              <GoogleLogout
+                clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
+                buttonText="Logout"
+                onLogoutSuccess={() => this.logOut()}
+              ></GoogleLogout>
             </div>
           </Body>
         </HeaderExpand>

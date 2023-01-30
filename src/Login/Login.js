@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 import "./style.css";
 
@@ -66,9 +66,9 @@ class Login extends Component {
     // Runs after the first render() lifecycle
     const clientId = "";
     const initClient = () => {
-      gapi.client.init({
+      gapi.auth2.init({
         clientId:
-          "278537208560-mqffor95ek7eeg48fp4civhma1398fqm.apps.googleusercontent.com",
+          "4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com",
         scope: "",
       });
     };
@@ -326,14 +326,16 @@ const Logon = observer(
 
               <GoogleLogin
                 className="justify-center mt-4"
-                clientId="278537208560-mqffor95ek7eeg48fp4civhma1398fqm.apps.googleusercontent.com"
+                clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
                 buttonText="Sign in with Google"
                 onSuccess={(e) => {
-                  const plan = { Plan: "Ultimate" };
-                  const append = [e.profileObj, ...plan];
-                  console.log(append, "pppppaa");
+                  console.log("e", e);
+                  // const plan = { Plan: "Ultimate" };
+                  // const append = [e.profileObj, ...plan];
+                  // console.log(append, "pppppaa");
                   localStorage.setItem("token", e.accessToken);
-                  localStorage.setItem("profile", JSON.stringify(append));
+                  localStorage.setItem("googleId", e.googleId);
+                  this.store.isLogIn();
                 }}
                 onFailure={() => console.log("failure")}
                 cookiePolicy={"single_host_origin"}
