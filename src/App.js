@@ -36,6 +36,8 @@ const googleId = localStorage.getItem("googleId");
 @observer
 class App extends Component {
   render() {
+    console.log(window.store.isLoggedIn, window.store.profile.status, "pppp");
+
     return (
       <ThemeProvider theme={colors}>
         <Provider store={window.store}>
@@ -45,7 +47,7 @@ class App extends Component {
             ) : null}
             {window.store.isLoggedIn ? (
               <>
-                {window.store.profile.status || googleId ? (
+                {window.store.profile.status ? (
                   <>
                     {" "}
                     {/*  Logged in with plan */}

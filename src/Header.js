@@ -87,6 +87,7 @@ class SidebarCompontent extends Component {
   }
 
   render() {
+    let googleId = localStorage.getItem("googleId");
     return (
       <>
         <Textarea
@@ -136,11 +137,13 @@ class SidebarCompontent extends Component {
                 width: "100%",
               }}
             >
-              <GoogleLogout
-                clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
-                buttonText="Logout"
-                onLogoutSuccess={() => this.logOut()}
-              ></GoogleLogout>
+              {googleId && (
+                <GoogleLogout
+                  clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
+                  buttonText="Logout"
+                  onLogoutSuccess={() => this.logOut()}
+                ></GoogleLogout>
+              )}
             </div>
           </Body>
         </HeaderExpand>

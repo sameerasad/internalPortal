@@ -62,6 +62,32 @@ class Login extends Component {
     }
   };
 
+  tokenAndProfileSetter = async () => {
+    this.props.store.loginWithDataTokenAndProfile(
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2IyMTQxYjU3N2VjMzE1YTY0OTc1ZTQiLCJlbWFpbCI6ImFkbWluQGRvbWFpbi5jb20iLCJjdXN0b21lcklkIjoiIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsImlhdCI6MTY3NTE5MDAwMCwiZXhwIjoxNjc1Mjc2NDAwfQ.0QmOoDasvtpeItS9l5yAEPuqDSDzCHFSpxeONmfnyXM",
+      {
+        accountType: "admin",
+        cancel_at_period_end: false,
+        created: "2023-01-01T23:15:39.482Z",
+        credits: 9933,
+        creditsUsed: 67,
+        current_period_end: "2023-01-08T23:15:38.589Z",
+        customerId: "",
+        email: "admin@domain.com",
+        fname: "Admin",
+        lname: "",
+        permissions: ["user"],
+        plan: "Ultimate",
+        referralId: "367750d9-6261-48cb-87d4-b80dd9737522",
+        referrerPaid: false,
+        status: "active",
+        trial_end: "2023-01-08T23:15:38.589Z",
+        __v: 0,
+        _id: "63b2141b577ec315a64975e4",
+      }
+    );
+  };
+
   componentDidMount() {
     // Runs after the first render() lifecycle
     const clientId = "";
@@ -100,15 +126,21 @@ class Login extends Component {
       }
     }
   };
-
+  isloggedIn = () => {
+    return this.store.isLogIn();
+  };
+  // this.props.store.loginWithDataTokenAndProfile(
+  //   e.accessToken,
+  //   profile
+  // );
   // Currently Selected Input Option
 
   render() {
     return (
       <>
-        <Helmet>
+        {/* <Helmet>
           <title>{`Login - OpenAI Template`}</title>
-        </Helmet>
+        </Helmet> */}
         <div
           className="lg:px-4 py-4 min-h-screen flex flex-col md:items-center md:justify-center"
           style={{
@@ -199,6 +231,8 @@ class Login extends Component {
                     signUp={this.signUpWithGoogle}
                     onChange={this.onChangeAny}
                     onLogin={this.onLogin}
+                    isloggedIn={this.isloggedIn}
+                    tokenAndProfileSetter={this.tokenAndProfileSetter}
                   />
                 </Route>
                 <Route path="/signup">
@@ -235,7 +269,18 @@ class Login extends Component {
 }
 
 const Logon = observer(
-  ({ active, email, password, onChange, onLogin, landingPageUrl, signUp }) => {
+  ({
+    active,
+    email,
+    password,
+    onChange,
+    onLogin,
+    landingPageUrl,
+    signUp,
+    isloggedIn,
+    tokenAndProfileSetter,
+  }) => {
+    console.log(isloggedIn, tokenAndProfileSetter, "sss");
     return (
       <>
         <form onSubmit={onLogin}>
@@ -329,13 +374,9 @@ const Logon = observer(
                 clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
                 buttonText="Sign in with Google"
                 onSuccess={(e) => {
-                  console.log("e", e);
-                  // const plan = { Plan: "Ultimate" };
-                  // const append = [e.profileObj, ...plan];
-                  // console.log(append, "pppppaa");
                   localStorage.setItem("token", e.accessToken);
                   localStorage.setItem("googleId", e.googleId);
-                  this.store.isLogIn();
+                  tokenAndProfileSetter();
                 }}
                 onFailure={() => console.log("failure")}
                 cookiePolicy={"single_host_origin"}
