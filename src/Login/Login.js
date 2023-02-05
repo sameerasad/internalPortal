@@ -19,6 +19,7 @@ import { images } from "../config/Images/index";
 import LogoAuthentication from "../Components/logos/LogoAuthentication";
 import { token } from "morgan";
 import { components } from "react-select";
+import EntryN from "../Components/EntryN";
 @inject("store")
 @observer
 class Login extends Component {
@@ -62,30 +63,27 @@ class Login extends Component {
     }
   };
 
-  tokenAndProfileSetter = async () => {
-    this.props.store.loginWithDataTokenAndProfile(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2IyMTQxYjU3N2VjMzE1YTY0OTc1ZTQiLCJlbWFpbCI6ImFkbWluQGRvbWFpbi5jb20iLCJjdXN0b21lcklkIjoiIiwiYWNjb3VudFR5cGUiOiJhZG1pbiIsImlhdCI6MTY3NTE5MDAwMCwiZXhwIjoxNjc1Mjc2NDAwfQ.0QmOoDasvtpeItS9l5yAEPuqDSDzCHFSpxeONmfnyXM",
-      {
-        accountType: "admin",
-        cancel_at_period_end: false,
-        created: "2023-01-01T23:15:39.482Z",
-        credits: 9933,
-        creditsUsed: 67,
-        current_period_end: "2023-01-08T23:15:38.589Z",
-        customerId: "",
-        email: "admin@domain.com",
-        fname: "Admin",
-        lname: "",
-        permissions: ["user"],
-        plan: "Ultimate",
-        referralId: "367750d9-6261-48cb-87d4-b80dd9737522",
-        referrerPaid: false,
-        status: "active",
-        trial_end: "2023-01-08T23:15:38.589Z",
-        __v: 0,
-        _id: "63b2141b577ec315a64975e4",
-      }
-    );
+  tokenAndProfileSetter = async (e) => {
+    this.props.store.loginWithDataTokenAndProfile(e.accessToken, {
+      accountType: "admin",
+      cancel_at_period_end: false,
+      // created: "2023-01-01T23:15:39.482Z",
+      credits: 9933,
+      creditsUsed: 67,
+      current_period_end: "2023-01-08T23:15:38.589Z",
+      customerId: e.googleId,
+      email: e.profileObj.email,
+      fname: e.profileObj.name,
+      lname: "",
+      permissions: ["user"],
+      plan: "Ultimate",
+      referralId: "367750d9-6261-48cb-87d4-b80dd9737522",
+      referrerPaid: false,
+      status: "active",
+      trial_end: "2023-01-08T23:15:38.589Z",
+      __v: 0,
+      _id: "63b2141b577ec315a64975e4",
+    });
   };
 
   componentDidMount() {
@@ -243,6 +241,7 @@ class Login extends Component {
                     lname={this.lname}
                     onChange={this.onChangeAny}
                     onSignup={this.onSignup}
+                    tokenAndProfileSetter={this.tokenAndProfileSetter}
                   />
                 </Route>
                 <Route>
@@ -351,24 +350,6 @@ const Logon = observer(
                 <p className="otherOption">Or Login in With</p>
               </div>
 
-              {/* <button
-              type="submit"
-              className="font-medium rounded-lg text-sm px-4 py-2 bg-white  text-black mt-4 border border-gray-300 inline-block"
-              // style={{
-              //   flexDirection: "row",
-              //   justifyContent: "center",
-              //   alignItems: "center",
-              // }}
-            >
-              <img
-                class="inline h-6 mr-2"
-                alt=""
-                src="data:image/png;base64,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"
-              ></img>
-
-              <span>Login with Google</span>
-            </button> */}
-
               <GoogleLogin
                 className="justify-center mt-4"
                 clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
@@ -376,7 +357,7 @@ const Logon = observer(
                 onSuccess={(e) => {
                   localStorage.setItem("token", e.accessToken);
                   localStorage.setItem("googleId", e.googleId);
-                  tokenAndProfileSetter();
+                  tokenAndProfileSetter(e);
                 }}
                 onFailure={() => console.log("failure")}
                 cookiePolicy={"single_host_origin"}
@@ -391,7 +372,16 @@ const Logon = observer(
 );
 
 const Signup = observer(
-  ({ active, email, password, fname, lname, onChange, onSignup }) => {
+  ({
+    active,
+    email,
+    password,
+    fname,
+    lname,
+    onChange,
+    onSignup,
+    tokenAndProfileSetter,
+  }) => {
     return (
       <>
         {/* onSignup */}
@@ -480,6 +470,26 @@ const Signup = observer(
               >
                 Sign Up
               </button>
+              <div className="mt-4">
+                <div style={{ width: "40px", height: "2px", color: "black" }} />
+                <p className="otherOption">Or SignUp in With</p>
+              </div>
+
+              <GoogleLogin
+                className="justify-center mt-4"
+                clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
+                buttonText="Sign Up with Google"
+                onSuccess={(e) => {
+                  console.log(e, "e check");
+                  localStorage.setItem("token", e.accessToken);
+                  localStorage.setItem("googleId", e.googleId);
+
+                  tokenAndProfileSetter(e);
+                }}
+                onFailure={() => console.log("failure")}
+                cookiePolicy={"single_host_origin"}
+                isSignedIn={true}
+              />
             </div>
           </div>
         </form>
