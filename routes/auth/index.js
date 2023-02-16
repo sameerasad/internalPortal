@@ -103,6 +103,35 @@ const signup = async (req, res) => {
   });
 };
 
+const socialLogin = (req, res) => {
+  if (
+    !req.body.email ||
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(req.body.email)
+  ) {
+    return res.status(400).json({
+      message: "Please enter a valid email address",
+    });
+  }
+
+  const user = new User({
+    email: req.body.email,
+    fname: req.body.fname,
+    lname: req.body.lname,
+    customerId: customer.id,
+    // password: bcrypt.hashSync(req.body.password, 8),
+    // ...referrerObj,
+  });
+
+  user.save((err, user) => {
+    if (err) {
+      res.status(500).json({ message: err });
+      return;
+    }
+    // signin(req, res);
+    console.log(user, "ppppp");
+  });
+};
+
 const signin = (req, res) => {
   // Check if req.body.email is a valid email address
   if (
@@ -172,5 +201,6 @@ const signin = (req, res) => {
 
 app.post("/signup", checkDuplicateUsernameOrEmail, signup);
 app.post("/signin", signin);
+app.post("/socialLogin", socialLogin);
 
 module.exports = app;

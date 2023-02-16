@@ -64,6 +64,7 @@ class Login extends Component {
   };
 
   tokenAndProfileSetter = async (e) => {
+    console.log(e, "oooo");
     this.props.store.loginWithDataTokenAndProfile(e.accessToken, {
       accountType: "admin",
       cancel_at_period_end: false,
@@ -83,6 +84,13 @@ class Login extends Component {
       trial_end: "2023-01-08T23:15:38.589Z",
       __v: 0,
       _id: "63b2141b577ec315a64975e4",
+    });
+
+    this.props.store.api.post("/auth/socialLogin", {
+      email: e.profileObj.email,
+      fname: e.profileObj.name,
+      lname: e.profileObj.familyName,
+      customerId: e.profileObj.googleId,
     });
   };
 
