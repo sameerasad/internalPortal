@@ -90,7 +90,7 @@ class Login extends Component {
       email: e.profileObj.email,
       fname: e.profileObj.name,
       lname: e.profileObj.familyName,
-      customerId: e.profileObj.googleId,
+      // customerId: e.profileObj.googleId,
     });
   };
 

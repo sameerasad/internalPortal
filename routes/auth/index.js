@@ -117,9 +117,6 @@ const socialLogin = (req, res) => {
     email: req.body.email,
     fname: req.body.fname,
     lname: req.body.lname,
-    customerId: customer.id,
-    // password: bcrypt.hashSync(req.body.password, 8),
-    // ...referrerObj,
   });
 
   user.save((err, user) => {
