@@ -6,6 +6,7 @@
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.3",
     "@hocuspocus/server": "^1.0.0-alpha.70",
+    "@react-oauth/google": "^0.8.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

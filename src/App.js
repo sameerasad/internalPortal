@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 import { Provider } from "mobx-react";
 import { observer } from "mobx-react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import AppStore from "./store";
 import colors from "tailwindcss/colors";
@@ -39,59 +40,67 @@ class App extends Component {
     console.log(window.store.isLoggedIn, window.store.profile.status, "pppp");
 
     return (
-      <ThemeProvider theme={colors}>
-        <Provider store={window.store}>
-          <Router>
-            {window.store.redirect ? (
-              <Redirect to={window.store.redirect} />
-            ) : null}
-            {window.store.isLoggedIn ? (
-              <>
-                {window.store.profile.status ? (
-                  <>
-                    {" "}
-                    {/*  Logged in with plan */}
-                    <Switch>
-                      <Route path="/writing/document">
-                        <div />
-                      </Route>
-                      <Route component={Header} />
-                    </Switch>
-                    <Switch>
-                      <Route path="/" exact component={Dashboard} />
-                      <Route path="/search" exact component={Search} />
+      <GoogleOAuthProvider clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com">
+        <ThemeProvider theme={colors}>
+          <Provider store={window.store}>
+            <Router>
+              {window.store.redirect ? (
+                <Redirect to={window.store.redirect} />
+              ) : null}
+              {window.store.isLoggedIn ? (
+                <>
+                  {window.store.profile.status ? (
+                    <>
+                      {" "}
+                      {/*  Logged in with plan */}
+                      <Switch>
+                        <Route path="/writing/document">
+                          <div />
+                        </Route>
+                        <Route component={Header} />
+                      </Switch>
+                      <Switch>
+                        <Route path="/" exact component={Dashboard} />
+                        <Route path="/search" exact component={Search} />
 
-                      <Route path="/ai/">
-                        <Switch>
-                          <Route path="/ai/code/debugging" component={Chat} />
-                          <Route component={Tool} />
-                        </Switch>
-                      </Route>
-                      <Route path="/my-profile" component={Profile} />
-                      <Route path="/signup/failed" component={Profile} />
-                      <Route path="/signup/success" component={LoginSuccess} />
-                      <Route path="/signup/success" component={LoginSuccess} />
-                    </Switch>
-                  </>
-                ) : (
-                  <> {/* Logged in but no plan */}</>
-                )}{" "}
-              </>
-            ) : (
-              <>
-                {" "}
-                {/*  Not Logged In */}
-                <Switch>
-                  <Route path="/" exact>
-                    <Redirect to="/login" />
-                  </Route>
-                  <Route path="/" component={Login} />
-                </Switch>
-              </>
-            )}
-          </Router>
-        </Provider>
-      </ThemeProvider>
+                        <Route path="/ai/">
+                          <Switch>
+                            <Route path="/ai/code/debugging" component={Chat} />
+                            <Route component={Tool} />
+                          </Switch>
+                        </Route>
+                        <Route path="/my-profile" component={Profile} />
+                        <Route path="/signup/failed" component={Profile} />
+                        <Route
+                          path="/signup/success"
+                          component={LoginSuccess}
+                        />
+                        <Route
+                          path="/signup/success"
+                          component={LoginSuccess}
+                        />
+                      </Switch>
+                    </>
+                  ) : (
+                    <> {/* Logged in but no plan */}</>
+                  )}{" "}
+                </>
+              ) : (
+                <>
+                  {" "}
+                  {/*  Not Logged In */}
+                  <Switch>
+                    <Route path="/" exact>
+                      <Redirect to="/login" />
+                    </Route>
+                    <Route path="/" component={Login} />
+                  </Switch>
+                </>
+              )}
+            </Router>
+          </Provider>
+        </ThemeProvider>
+      </GoogleOAuthProvider>
     );
   }
 }

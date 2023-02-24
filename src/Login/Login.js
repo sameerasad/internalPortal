@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "react-google-login";
+import { GoogleLogin } from "@react-oauth/google";
 import { gapi } from "gapi-script";
 import "./style.css";
 
@@ -94,18 +95,18 @@ class Login extends Component {
     });
   };
 
-  componentDidMount() {
-    // Runs after the first render() lifecycle
-    const clientId = "";
-    const initClient = () => {
-      gapi.auth2.init({
-        clientId:
-          "4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com",
-        scope: "",
-      });
-    };
-    gapi.load("client:auth2", initClient);
-  }
+  // componentDidMount() {
+  //   // Runs after the first render() lifecycle
+
+  //   const initClient = () => {
+  //     gapi.auth2.init({
+  //       clientId:
+  //         "4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com",
+  //       scope: "",
+  //     });
+  //   };
+  //   gapi.load("client:auth2", initClient);
+  // }
   onSignup = async (e) => {
     try {
       e.preventDefault();
@@ -367,9 +368,9 @@ const Logon = observer(
                   localStorage.setItem("googleId", e.googleId);
                   tokenAndProfileSetter(e);
                 }}
-                onFailure={() => console.log("failure")}
-                cookiePolicy={"single_host_origin"}
-                isSignedIn={true}
+                // onFailure={() => console.log("failure")}
+                // cookiePolicy={"single_host_origin"}
+                // isSignedIn={true}
               />
             </div>
           </div>
@@ -484,19 +485,19 @@ const Signup = observer(
               </div>
 
               <GoogleLogin
-                className="justify-center mt-4"
+                // className="justify-center mt-4"
                 clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
                 buttonText="Sign Up with Google"
                 onSuccess={(e) => {
-                  console.log(e, "e check");
+                  // alert(e);
                   localStorage.setItem("token", e.accessToken);
                   localStorage.setItem("googleId", e.googleId);
 
                   tokenAndProfileSetter(e);
                 }}
-                onFailure={() => console.log("failure")}
-                cookiePolicy={"single_host_origin"}
-                isSignedIn={true}
+                // onFailure={() => console.log("failure")}
+                // cookiePolicy={"single_host_origin"}
+                // isSignedIn={true}
               />
             </div>
           </div>
