@@ -40,67 +40,59 @@ class App extends Component {
     console.log(window.store.isLoggedIn, window.store.profile.status, "pppp");
 
     return (
-      <GoogleOAuthProvider clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com">
-        <ThemeProvider theme={colors}>
-          <Provider store={window.store}>
-            <Router>
-              {window.store.redirect ? (
-                <Redirect to={window.store.redirect} />
-              ) : null}
-              {window.store.isLoggedIn ? (
-                <>
-                  {window.store.profile.status ? (
-                    <>
-                      {" "}
-                      {/*  Logged in with plan */}
-                      <Switch>
-                        <Route path="/writing/document">
-                          <div />
-                        </Route>
-                        <Route component={Header} />
-                      </Switch>
-                      <Switch>
-                        <Route path="/" exact component={Dashboard} />
-                        <Route path="/search" exact component={Search} />
+      <ThemeProvider theme={colors}>
+        <Provider store={window.store}>
+          <Router>
+            {window.store.redirect ? (
+              <Redirect to={window.store.redirect} />
+            ) : null}
+            {window.store.isLoggedIn ? (
+              <>
+                {window.store.profile.status ? (
+                  <>
+                    {" "}
+                    {/*  Logged in with plan */}
+                    <Switch>
+                      <Route path="/writing/document">
+                        <div />
+                      </Route>
+                      <Route component={Header} />
+                    </Switch>
+                    <Switch>
+                      <Route path="/" exact component={Dashboard} />
+                      <Route path="/search" exact component={Search} />
 
-                        <Route path="/ai/">
-                          <Switch>
-                            <Route path="/ai/code/debugging" component={Chat} />
-                            <Route component={Tool} />
-                          </Switch>
-                        </Route>
-                        <Route path="/my-profile" component={Profile} />
-                        <Route path="/signup/failed" component={Profile} />
-                        <Route
-                          path="/signup/success"
-                          component={LoginSuccess}
-                        />
-                        <Route
-                          path="/signup/success"
-                          component={LoginSuccess}
-                        />
-                      </Switch>
-                    </>
-                  ) : (
-                    <> {/* Logged in but no plan */}</>
-                  )}{" "}
-                </>
-              ) : (
-                <>
-                  {" "}
-                  {/*  Not Logged In */}
-                  <Switch>
-                    <Route path="/" exact>
-                      <Redirect to="/login" />
-                    </Route>
-                    <Route path="/" component={Login} />
-                  </Switch>
-                </>
-              )}
-            </Router>
-          </Provider>
-        </ThemeProvider>
-      </GoogleOAuthProvider>
+                      <Route path="/ai/">
+                        <Switch>
+                          <Route path="/ai/code/debugging" component={Chat} />
+                          <Route component={Tool} />
+                        </Switch>
+                      </Route>
+                      <Route path="/my-profile" component={Profile} />
+                      <Route path="/signup/failed" component={Profile} />
+                      <Route path="/signup/success" component={LoginSuccess} />
+                      <Route path="/signup/success" component={LoginSuccess} />
+                    </Switch>
+                  </>
+                ) : (
+                  <> {/* Logged in but no plan */}</>
+                )}{" "}
+              </>
+            ) : (
+              <>
+                {" "}
+                {/*  Not Logged In */}
+                <Switch>
+                  <Route path="/" exact>
+                    <Redirect to="/login" />
+                  </Route>
+                  <Route path="/" component={Login} />
+                </Switch>
+              </>
+            )}
+          </Router>
+        </Provider>
+      </ThemeProvider>
     );
   }
 }

@@ -358,20 +358,38 @@ const Logon = observer(
                 <div style={{ width: "40px", height: "2px", color: "black" }} />
                 <p className="otherOption">Or Login in With</p>
               </div>
-
-              <GoogleLogin
-                className="justify-center mt-4"
-                clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
-                buttonText="Sign in with Google"
-                onSuccess={(e) => {
-                  localStorage.setItem("token", e.accessToken);
-                  localStorage.setItem("googleId", e.googleId);
-                  tokenAndProfileSetter(e);
+              <div
+                style={{
+                  alignItem: "center",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
-                // onFailure={() => console.log("failure")}
-                // cookiePolicy={"single_host_origin"}
-                // isSignedIn={true}
-              />
+              >
+                <GoogleLogin
+                  className="justify-center mt-4"
+                  // clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
+                  buttonText="Sign in with Google"
+                  auto_select={false}
+                  onSuccess={(e) => {
+                    console.log(e, "e");
+                    // localStorage.setItem("token", e.accessToken);
+                    // localStorage.setItem("googleId", e.googleId);
+                    // tokenAndProfileSetter(e);
+                  }}
+                  // onFailure={() => console.log("failure")}
+                  // cookiePolicy={"single_host_origin"}
+                  // isSignedIn={true}
+                />
+              </div>
+
+              {/* <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  console.log(credentialResponse);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              /> */}
             </div>
           </div>
         </form>
@@ -484,21 +502,29 @@ const Signup = observer(
                 <p className="otherOption">Or SignUp in With</p>
               </div>
 
-              <GoogleLogin
-                // className="justify-center mt-4"
-                clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
-                buttonText="Sign Up with Google"
-                onSuccess={(e) => {
-                  // alert(e);
-                  localStorage.setItem("token", e.accessToken);
-                  localStorage.setItem("googleId", e.googleId);
-
-                  tokenAndProfileSetter(e);
+              <div
+                style={{
+                  alignItem: "center",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
-                // onFailure={() => console.log("failure")}
-                // cookiePolicy={"single_host_origin"}
-                // isSignedIn={true}
-              />
+              >
+                <GoogleLogin
+                  // className="justify-center mt-4"
+                  // clientId="4856694592-sf5edlejscubputd35vdmc0fpton1lqh.apps.googleusercontent.com"
+                  buttonText="Sign Up with Google"
+                  onSuccess={(e) => {
+                    console.log(e, "e");
+                    // localStorage.setItem("token", e.accessToken);
+                    // localStorage.setItem("googleId", e.googleId);
+                    // tokenAndProfileSetter(e);
+                  }}
+                  onError={(e) => console.log(e, "error")}
+                  // onFailure={() => console.log("failure")}
+                  // cookiePolicy={"single_host_origin"}
+                  // isSignedIn={true}
+                />
+              </div>
             </div>
           </div>
         </form>
