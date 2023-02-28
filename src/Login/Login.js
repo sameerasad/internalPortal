@@ -2,7 +2,8 @@ import React, { Component, useState } from "react";
 import { NavLink } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
 import { GoogleLogin } from "@react-oauth/google";
-import { gapi } from "gapi-script";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 import "./style.css";
 
 import {
@@ -93,6 +94,56 @@ class Login extends Component {
       lname: e.profileObj.familyName,
       // customerId: e.profileObj.googleId,
     });
+  };
+  // get detail of users from their access token
+  getUser = async (user) => {
+    if (user.credential != null) {
+      const USER_CREDENTIAL = jwtDecode(user.credential);
+      this.props.store.loginWithDataTokenAndProfile(
+        USER_CREDENTIAL.accessToken,
+        {
+          accountType: "admin",
+          cancel_at_period_end: false,
+          // created: "2023-01-01T23:15:39.482Z",
+          credits: 9933,
+          creditsUsed: 67,
+          current_period_end: "2023-01-08T23:15:38.589Z",
+          customerId: USER_CREDENTIAL.jti,
+          email: USER_CREDENTIAL.email,
+          fname: USER_CREDENTIAL.name,
+          lname: "",
+          permissions: ["user"],
+          plan: "Ultimate",
+          referralId: "367750d9-6261-48cb-87d4-b80dd9737522",
+          referrerPaid: false,
+          status: "active",
+          trial_end: "2023-01-08T23:15:38.589Z",
+          __v: 0,
+          _id: "63b2141b577ec315a64975e4",
+        }
+      );
+      localStorage.setItem("googleId", USER_CREDENTIAL.jti);
+
+      console.log(USER_CREDENTIAL);
+    }
+    // if (user) {
+    //   axios
+    //     .get(
+    //       `https://www.googleapis.com/oauth2/v1/userinfo?client_id=${user.clientId}`,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${user.access_token}`,
+    //           Accept: "application/json",
+    //         },
+    //       }
+    //     )
+    //     .then((res) => {
+    //       // setProfile(res.data);
+    //       // tokenAndProfileSetter(res);
+    //       console.log(res, "ppppppp");
+    //     })
+    //     .catch((err) => console.log(err));
+    // }
   };
 
   // componentDidMount() {
@@ -239,7 +290,7 @@ class Login extends Component {
                     onChange={this.onChangeAny}
                     onLogin={this.onLogin}
                     isloggedIn={this.isloggedIn}
-                    tokenAndProfileSetter={this.tokenAndProfileSetter}
+                    tokenAndProfileSetter={this.getUser}
                   />
                 </Route>
                 <Route path="/signup">
@@ -250,7 +301,7 @@ class Login extends Component {
                     lname={this.lname}
                     onChange={this.onChangeAny}
                     onSignup={this.onSignup}
-                    tokenAndProfileSetter={this.tokenAndProfileSetter}
+                    tokenAndProfileSetter={this.getUser}
                   />
                 </Route>
                 <Route>
@@ -374,7 +425,7 @@ const Logon = observer(
                     console.log(e, "e");
                     // localStorage.setItem("token", e.accessToken);
                     // localStorage.setItem("googleId", e.googleId);
-                    // tokenAndProfileSetter(e);
+                    tokenAndProfileSetter(e);
                   }}
                   // onFailure={() => console.log("failure")}
                   // cookiePolicy={"single_host_origin"}
@@ -517,7 +568,7 @@ const Signup = observer(
                     console.log(e, "e");
                     // localStorage.setItem("token", e.accessToken);
                     // localStorage.setItem("googleId", e.googleId);
-                    // tokenAndProfileSetter(e);
+                    tokenAndProfileSetter(e);
                   }}
                   onError={(e) => console.log(e, "error")}
                   // onFailure={() => console.log("failure")}

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { observer, inject } from "mobx-react";
 import { computed } from "mobx";
 import { NavLink } from "react-router-dom";
-import { GoogleLogout } from "react-google-login";
+import { googleLogout } from "@react-oauth/google";
 import {
   SwitchHorizontalIcon,
   ScaleIcon,
@@ -138,11 +138,11 @@ class SidebarCompontent extends Component {
               }}
             >
               {googleId && (
-                <GoogleLogout
+                <googleLogout
                   clientId="4856694592-h06iepuhl4ils4morf1td8et0tboeude.apps.googleusercontent.com"
                   buttonText="Logout"
                   onLogoutSuccess={() => this.logOut()}
-                ></GoogleLogout>
+                ></googleLogout>
               )}
             </div>
           </Body>
